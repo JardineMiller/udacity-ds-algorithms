@@ -1,0 +1,51 @@
+Task 0:
+    A. O(1)
+    Explanation:
+    Assuming that the 'first' and 'last' record is based upon the initial ordering of the records,
+    one process to access the first record, and one to process the last - giving you O(1 + 1). This
+    is then simplified to O(1).
+
+Task 1:
+    A. O(n)
+    Explanation:
+    We are iterating over the calls records and texts records once each, which gives us O(n + m).
+    Then we do a len() on the resulting set, which has O(1) complexity, we leaves us with O(n + m + 1)
+    which we ultimately simplify to O(n).
+
+Task 2:
+    A. O(n)
+    Explanation:
+    We are iterating over the calls records once to initialise the dictionary that contains each distinct
+    number and the total number of minutes that number spent on a phone call. We are then using the max()
+    function to return the entry with the highest total mins. This is calculated by iterating over each entry
+    in the dictionary - bringing our total number of iterations to 2: O(2n). We then simplify this to O(n)
+    to give us our final result.
+
+Task 3:
+    PART A:
+        A. O(n)
+        Explanation:
+        We initially filter the calls records down to only include the area code in question: O(n). Then, we
+        find the unique codes for those numbers: O(m) - using a set helps keep our complexity down here as checking
+        for an entry in a set is O(1) as opposed to the O(n) of a list, we then cast that set to a list and sort it,
+        with each process having a complexity of O(m). This brings our final result to O(n + 3m) which is simplified to O(n)
+
+
+    PART B:
+         A. O(n)
+        Explanation:
+        We iterate over the entire calls record once: O(n) and then iterate over that resulting list once: O(n + m). We
+        then get the length of each of those lists to double the number of processes for each: O(2n + 2m). We then
+        simplify this to O(n)
+
+Task 4:
+    A. O(n)
+    Explanation:
+    We iterate over the calls and records lists once each and add/remove any numbers based on whether or not that number
+    is already in the structure. Using a set helps keep the complexity down as each accessor is O(1) - not the O(n) you
+    would find with a list. After the first two iterations, we are at O(n + m). We then cast the resulting subset back
+    to a list and sort it: O(2a). This is ultimately simplified to O(n).
+
+
+
+
