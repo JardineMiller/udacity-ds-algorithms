@@ -8,8 +8,8 @@ Task 0:
 Task 1:
     A. O(n)
     Explanation:
-    We are iterating over the calls records and texts records once each, which gives us O(n + m).
-    Then we do a len() on the resulting set, which has O(1) complexity, we leaves us with O(n + m + 1)
+    We are iterating over the calls records and texts records once each, which gives us O(x + y).
+    Then we do a len() on the resulting set, which has O(1) complexity, we leaves us with O(x + y + 1)
     which we ultimately simplify to O(n).
 
 Task 2:
@@ -23,12 +23,12 @@ Task 2:
 
 Task 3:
     PART A:
-        A. O(n)
+        A. O(nlogn)
         Explanation:
-        We initially filter the calls records down to only include the area code in question: O(n). Then, we
-        find the unique codes for those numbers: O(m) - using a set helps keep our complexity down here as checking
-        for an entry in a set is O(1) as opposed to the O(n) of a list, we then cast that set to a list and sort it,
-        with each process having a complexity of O(m). This brings our final result to O(n + 3m) which is simplified to O(n)
+        We initially filter the calls records down to only include the area code in question: O(x). Then, we
+        find the unique codes for those numbers: O(n) - using a set helps keep our complexity down here as checking
+        for an entry in a set is O(1) as opposed to the O(n) of a list. We then sort the set. The sort method in python
+        has a time complexity of O(nlogn). This brings our simplified final result to O(nlogn)
 
 
     PART B:
@@ -39,12 +39,12 @@ Task 3:
         simplify this to O(n)
 
 Task 4:
-    A. O(n)
+    A. O(nlogn)
     Explanation:
     We iterate over the calls and records lists once each and add/remove any numbers based on whether or not that number
     is already in the structure. Using a set helps keep the complexity down as each accessor is O(1) - not the O(n) you
-    would find with a list. After the first two iterations, we are at O(n + m). We then cast the resulting subset back
-    to a list and sort it: O(2a). This is ultimately simplified to O(n).
+    would find with a list. After the first two iterations, we are at O(x + y). We then sort the set and return it. The
+    sort method in python has a time complexity of O(nlogn). This is ultimately simplified to O(n).
 
 
 

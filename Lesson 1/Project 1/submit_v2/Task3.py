@@ -75,8 +75,7 @@ def print_unique_codes_called_for(area_name, code, records, use_from_num=True):
     code_type = get_code_type(code)
     filtered_nums = filter_by(records, code, code_type, use_from_num)
 
-    unique = list(get_unique_codes(filtered_nums, not use_from_num))
-    unique.sort()
+    unique = sorted(get_unique_codes(filtered_nums, not use_from_num))
 
     print("The numbers called by people in {} have codes:".format(area_name))
     for u in unique:
@@ -147,10 +146,10 @@ def filter_by(records, code, num_type, use_from_num=True):
 
 
 def get_code(tel_number):
-    if ('(' in tel_number and ')' in tel_number):
+    if ('(' in tel_number):
         return tel_number[tel_number.find('('):tel_number.find(')') + 1]
     elif (' ' in tel_number):
-        return tel_number[:tel_number.find(' ')]
+        return tel_number[:4]
     else:
         return tel_number[:3]
 
@@ -160,9 +159,7 @@ def get_unique_codes(records, use_from_num=True):
 
     for record in records:
         code = get_code(record[filter_index])
-
-        if (code not in unique_codes):
-            unique_codes.add(code)
+        unique_codes.add(code)
 
     return unique_codes
 

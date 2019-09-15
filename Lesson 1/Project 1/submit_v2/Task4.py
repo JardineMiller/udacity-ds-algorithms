@@ -41,11 +41,10 @@ def get_potential_telemarketers_from_calls(calls):
 
         confirmed_not_telemarketers.add(to_num)
 
-        if (from_num not in confirmed_not_telemarketers and from_num not in potential_telemarketers):
+        if (from_num not in confirmed_not_telemarketers):
             potential_telemarketers.add(from_num)
 
-        if (to_num in potential_telemarketers):
-            potential_telemarketers.remove(to_num)
+        potential_telemarketers.discard(to_num)
 
     return potential_telemarketers
 
@@ -54,21 +53,17 @@ def filter_potentials_from_texts(texts, potential_telemarketers):
         from_num = record[0]
         to_num = record[1]
 
-        if (from_num in potential_telemarketers):
-            potential_telemarketers.remove(from_num)
-
-        if (to_num in potential_telemarketers):
-            potential_telemarketers.remove(to_num)
+        potential_telemarketers.discard(from_num)
+        potential_telemarketers.discard(to_num)
 
 def print_telemarketers(calls, texts):
-    telemarketers = list(get_telemarketers(calls, texts))
-    telemarketers.sort()
+    telemarketers = sorted(get_telemarketers(calls, texts))
 
     print("These numbers could be telemarketers: ")
     for t in telemarketers:
         print(t)
 
-#print_telemarketers(calls, texts)
+print_telemarketers(calls, texts)
 
 # =============================#
 # =========== TESTS ===========#
@@ -76,8 +71,7 @@ def print_telemarketers(calls, texts):
 def test():
     calls_test = [
         ['123 456', '97424 22395', '01-09-2016 06:01:12', '186'],
-        ['97424 22395', '123 456', '01-09-2016 06:03:51', '1975'],
-        ['123 456', '456 789', '01-09-2016 06:03:51', '200'],
+        ['97424 22395', '123 456', '01-09-2016 06:03:51', '1975'], ['123 456', '456 789', '01-09-2016 06:03:51', '200'],
         ['(666)5678', '456 789', '01-09-2016 06:03:51', '200'],
         ['(666)1111', '456 789', '01-09-2016 06:03:51', '200'],
         ['(666)1111', '123 456', '01-09-2016 06:03:51', '200'],
@@ -107,4 +101,4 @@ def test():
 
     print("all tests pass")
 
-test()
+#test()

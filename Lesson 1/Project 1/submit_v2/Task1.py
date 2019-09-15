@@ -28,11 +28,8 @@ def add_to_distinct_from_list(list, distinct):
 		from_num = record[0]
 		to_num = record[1]
 
-		if (from_num not in distinct):
-			distinct.add(from_num)
-
-		if (to_num not in distinct):
-			distinct.add(to_num)
+		distinct.add(from_num)
+		distinct.add(to_num)
 
 
 def get_distinct_numbers(t_list, c_list):
