@@ -27,10 +27,10 @@ def duplicate_number(arr):
     num_set = set()
 
     for num in arr:
-    	if num  in num_set:
-    		return num
-    	else:
-    		num_set.add(num)
+        if num  in num_set:
+            return num
+        else:
+            num_set.add(num)
     
 
 def test_function(test_case):
