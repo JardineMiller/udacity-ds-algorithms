@@ -26,8 +26,6 @@
 
 # For the current problem, you can consider the size of cache = 5.
 
-# Here is some boiler plate code and some example test cases to get you started on this problem:
-
 class Node:
     def __init__(self, key, value):
         self.key = key
@@ -56,22 +54,18 @@ class DLinkedList():
             self.num_elems += 1
         
     def remove_head(self):
-        removed = self.head
         self.head.next.previous = None
         self.head = self.head.next
         self.num_elems -= 1
-        return removed
 
-    def remove_node(self, node):
-        val = node.value
-        
-        if self.get_head().value == val and self.get_tail().value == val:
+    def remove_node(self, node):        
+        if self.get_head() == node and self.get_tail() == node:
             self.head = None
             self.tail = None
-        elif self.get_head().value == val:
+        elif self.get_head() == node:
             self.head = node.next
             node.next.previous = self.head
-        elif self.get_tail().value == val:
+        elif self.get_tail() == node:
             self.tail = node.previous
             node.previous.next = self.tail
         else:
@@ -137,7 +131,8 @@ class LRU_Cache(object):
 
     def remove_last_used(self):
         # Removes the least recently used item from the cache
-        removed = self.access_list.remove_head()
+        removed = self.access_list.get_head()
+        self.access_list.remove_head()
         self.store.pop(removed.key)
         self.size -= 1
 
@@ -202,22 +197,24 @@ def run_LRU_cache_tests():
 
     test("Size after reaching maximum capacity", cache.size, 5)
     test("Cache miss because we removed an entry due to reaching maximum capacity", cache.get(3), -1)
+    test("Updated head", cache.access_list.get_head().value, 4)
+    test("Updated tail", cache.access_list.get_tail().value, 6)
 
+    cache.get(4)
 
+    test("Updated head again", cache.access_list.get_head().value, 1)
+    test("Updated tail again", cache.access_list.get_tail().value, 4)
 
 def run_all_tests():
     print("=========== RUNNING TESTS ============")
 
     print("\n       SECTION: Linked Lists       ")
-    # run_linked_list_tests()
+    run_linked_list_tests()
 
     print("\n       SECTION: LRU Cache       ")
     run_LRU_cache_tests()
 
     print("=========== TESTS COMPLETE ===========")
-
-
-# our_cache.get(3)      # returns -1 because the cache reached it's capacity and 3 was the least recently used entry
 
 
 run_all_tests()
