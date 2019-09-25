@@ -47,6 +47,7 @@ def test(scenario, result, expected):
 def run_tests():
 	test("find_files with .c suffix returns 4 results", len(find_files(".c", "./testdir")), 4)
 	test("find_files with .h suffix returns 4 results", len(find_files(".h", "./testdir")), 4)
-	test("find_files with .gitkeep suffix returns 4 results", len(find_files(".gitkeep", "./testdir")), 2)
+	test("find_files with .gitkeep suffix returns 2 results", len(find_files(".gitkeep", "./testdir")), 2)
+	test("find_files with partial suffix returns 0 results", len(find_files(".gi", "./testdir")), 0)
 
 run_tests()
