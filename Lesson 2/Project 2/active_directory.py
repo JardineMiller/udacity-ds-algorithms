@@ -30,7 +30,15 @@ def is_user_in_group(user, group):
       user(str): user name/id
       group(class:Group): group to check user membership against
     """
-    return None
+
+    if user in group.users:
+        return True
+
+    for sub_group in group.groups:
+        return is_user_in_group(user, sub_group)
+
+    return False
+
 
 def test(scenario, result, expected):
 	separator = "-------------------------"
@@ -45,23 +53,36 @@ def test(scenario, result, expected):
 	print(status)
 	print(separator)
 
-parent = Group("parent")
-child = Group("child")
-sub_child = Group("subchild")
 
-root_group_user = "root_user"
-sub_child_user = "sub_child_user"
-orphaned_user = "orphaned_user"
+def run_tests():
+    #Level 1
+    root = Group("root")
+    root_user = "root_user"
+    root.add_user(root_user)
 
-sub_child.add_user(sub_child_user)
-child.add_group(sub_child)
-parent.add_group(child)
+    #Level 2
+    child1 = Group("child")
+    child2 = Group("child2")
 
-test("sub_child groups contains user: sub_child_user returns true", is_user_in_group("sub_child_user", sub_child), True)
-test("sub_child_user is not in root group", is_user_in_group("sub_child_user", parent), False)
+    #Level 3
+    child1_child = Group("subchild")
+    child1_child_user = "child1_child_user"
+    child1_child.add_user(child1_child_user)
 
-test("root_user is in root group", is_user_in_group("root_user", parent), True)
+    orphaned_user = "orphaned_user"
+    
+    child1.add_group(child1_child)
 
-test("orphaned user is in no group", is_user_in_group("orphaned_user", parent), False)
-test("orphaned user is in no group", is_user_in_group("orphaned_user", child), False)
-test("orphaned user is in no group", is_user_in_group("orphaned_user", sub_child), False)
+    root.add_group(child1)
+    root.add_group(child2)
+
+    test("child1_child_user is in child1_child", is_user_in_group("child1_child_user", child1), True)
+    test("child1_child_user is in child1_child group", is_user_in_group("child1_child_user", child1_child), True)
+    test("child1_child_user is not in child2 group", is_user_in_group("child1_child_user", child2), False)
+    test("root_user is in root group", is_user_in_group("root_user", root), True)
+
+    orphaned_user_in_no_group = is_user_in_group("orphaned_user", root) and is_user_in_group("orphaned_user", child1) and is_user_in_group("orphaned_user", child1_child)
+
+    test("orphaned user is in no group", orphaned_user_in_no_group, False)
+
+run_tests()
