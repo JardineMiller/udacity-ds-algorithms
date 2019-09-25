@@ -24,8 +24,7 @@ def find_files(suffix, path):
 	for item in items:
 		extended_path = path + "/" + item
 
-		if os.path.isfile(extended_path):
-			if extended_path.endswith(suffix):
+		if os.path.isfile(extended_path) and extended_path.endswith(suffix):
 				paths.append(extended_path)
 		elif os.path.isdir(extended_path):
 			paths += find_files(suffix, extended_path)
@@ -33,6 +32,7 @@ def find_files(suffix, path):
 	return paths
 
 def test(scenario, result, expected):
+	separator = "-------------------------"
 	scenario = "Scenario: " + scenario
 	status = "Status: PASS" if result is expected else "Status: FAIL"
 	result_str = "Result: " + str(result)
@@ -44,5 +44,9 @@ def test(scenario, result, expected):
 	print(status)
 	print(separator)
 
+def run_tests():
+	test("find_files with .c suffix returns 4 results", len(find_files(".c", "./testdir")), 4)
+	test("find_files with .h suffix returns 4 results", len(find_files(".h", "./testdir")), 4)
+	test("find_files with .gitkeep suffix returns 4 results", len(find_files(".gitkeep", "./testdir")), 2)
 
-print(find_files(".c", "testdir"))
+run_tests()
