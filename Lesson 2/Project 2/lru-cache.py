@@ -116,7 +116,6 @@ class LRU_Cache(object):
         if entry:
             # Update existing - no need to assess capacity
             self.update_node_access(entry)
-            new_node.previous = self.access_list.get_tail().previous
             self.store[key] = new_node
             return
 
