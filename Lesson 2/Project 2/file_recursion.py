@@ -25,7 +25,7 @@ def find_files(suffix, path):
 		extended_path = path + "/" + item
 
 		if os.path.isfile(extended_path) and extended_path.endswith(suffix):
-				paths.append(extended_path)
+			paths.append(extended_path)
 		elif os.path.isdir(extended_path):
 			paths += find_files(suffix, extended_path)
 
