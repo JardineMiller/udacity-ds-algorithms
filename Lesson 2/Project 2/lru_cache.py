@@ -62,7 +62,7 @@ class LRU_Cache(object):
         self.size = 0
         self.capacity = capacity
         self.store = {}
-        self.access_list = DLinkedList()
+        self.recently_used_list = DLinkedList()
         pass
 
     def get(self, key):
@@ -71,14 +71,14 @@ class LRU_Cache(object):
 
         if entry:
             # Update the access list
-            self.update_node_access(entry)
+            self.update_recently_used_list(entry)
             return entry.value
         
         return -1
 
-    def update_node_access(self, node):
-        self.access_list.remove_node(node)
-        self.access_list.add(node)
+    def update_recently_used_list(self, node):
+        self.recently_used_list.remove_node(node)
+        self.recently_used_list.add(node)
 
     def set(self, key, value):
         # Set the value if the key is not present in the cache. If the cache is at capacity remove the oldest item. 
@@ -87,7 +87,7 @@ class LRU_Cache(object):
 
         if entry:
             # Update existing - no need to assess capacity
-            self.update_node_access(entry)
+            self.update_recently_used_list(entry)
             self.store[key] = new_node
             return
 
@@ -96,14 +96,14 @@ class LRU_Cache(object):
             self.remove_last_used()
 
         # Add new entry
-        self.access_list.add(new_node)
+        self.recently_used_list.add(new_node)
         self.store[key] = new_node
         self.size += 1
 
     def remove_last_used(self):
         # Removes the least recently used item from the cache
-        removed = self.access_list.get_head()
-        self.access_list.remove_head()
+        removed = self.recently_used_list.get_head()
+        self.recently_used_list.remove_head()
         self.store.pop(removed.key)
         self.size -= 1
 
@@ -168,13 +168,13 @@ def run_LRU_cache_tests():
 
     test("Size after reaching maximum capacity", cache.size, 5)
     test("Cache miss because we removed an entry due to reaching maximum capacity", cache.get(3), -1)
-    test("Updated head", cache.access_list.get_head().value, 4)
-    test("Updated tail", cache.access_list.get_tail().value, 6)
+    test("Updated head", cache.recently_used_list.get_head().value, 4)
+    test("Updated tail", cache.recently_used_list.get_tail().value, 6)
 
     cache.get(4)
 
-    test("Updated head again", cache.access_list.get_head().value, 1)
-    test("Updated tail again", cache.access_list.get_tail().value, 4)
+    test("Updated head again", cache.recently_used_list.get_head().value, 1)
+    test("Updated tail again", cache.recently_used_list.get_tail().value, 4)
 
 def run_all_tests():
     print("=========== RUNNING TESTS ============")
