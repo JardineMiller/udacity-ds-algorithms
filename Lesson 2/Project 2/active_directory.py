@@ -30,6 +30,8 @@ def is_user_in_group(user, group):
       user(str): user name/id
       group(class:Group): group to check user membership against
     """
+    if type(user) is not str:
+        return None
 
     if user in group.users:
         return True
@@ -84,5 +86,6 @@ def run_tests():
     orphaned_user_in_no_group = is_user_in_group("orphaned_user", root) and is_user_in_group("orphaned_user", child1) and is_user_in_group("orphaned_user", child1_child)
 
     test("orphaned user is in no group", orphaned_user_in_no_group, False)
+    test("invalid input returns none", is_user_in_group(1, child1), None)
 
 run_tests()
