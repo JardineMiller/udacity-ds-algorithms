@@ -97,6 +97,7 @@ def run_tests():
     blockchain.add_block(datetime(2019, 9, 21), 'This is some more data')
     test("Adding a block increases the size by 1", blockchain.size, 3)
     test("Latest block contains new block", blockchain.get_latest_block().data, "This is some more data")
+    test("Latest block previous contains previous data", blockchain.get_latest_block().previous.data, "This is some data")
 
     blockchain.print_blockchain()
     
