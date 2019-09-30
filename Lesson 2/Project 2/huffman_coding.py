@@ -62,16 +62,16 @@ def huffman_encoding(data):
 
     return (encoded_data, tree)
 
-def decode_char(bit_arr, tree):
-    if type(tree) is str:
-        return tree
+def decode_char(bit_arr, node):
+    if type(node) is str:
+        return node
 
     bit = bit_arr.pop(0)
     
     if bit == "0":
-        return decode_char(bit_arr, tree.left)
+        return decode_char(bit_arr, node.left)
     else:
-        return decode_char(bit_arr, tree.right)
+        return decode_char(bit_arr, node.right)
     
 
 def huffman_decoding(bit_string, tree):
