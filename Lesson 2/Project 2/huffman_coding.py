@@ -75,9 +75,9 @@ def get_char_from_tree(data_arr, tree):
         result += get_char_from_tree(data_arr, tree.right)
     
 
-def huffman_decoding(data, tree):
+def huffman_decoding(bit_string, tree):
     decoded_string = ""
-    data_arr = [char for char in data]
+    data_arr = [bit for bit in bit_string]
 
     while len(data_arr) > 0:
         decoded_string += get_char_from_tree(data_arr, tree)
