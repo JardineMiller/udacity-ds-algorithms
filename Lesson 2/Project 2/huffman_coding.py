@@ -62,30 +62,28 @@ def huffman_encoding(data):
 
     return (encoded_data, tree)
 
-def huffman_decoding(data, tree, i=0):
+def get_char_from_tree(data_arr, tree):
     result = ""
-    node = None
+    if type(tree) is str:
+        return tree
 
-    while len(data) > 0:
-        char = data[i]
-        
-        if node is None:
-            node = tree
+    char = data_arr.pop(0)
+    
+    if char == "0":
+        result += get_char_from_tree(data_arr, tree.left)
+    else:
+        result += get_char_from_tree(data_arr, tree.right)
+    
 
-        if char == "0":
-            node = node.left
-        else:
-            node = node.right
+def huffman_decoding(data, tree):
+    result = ""
+    data_arr = [char for char in data]
 
-        i += 1
-        
-        if type(node) is str:
-            data = data[i:]
-            i = 0
-            result += node
-            node = None
+    while len(data_arr) > 0:
+        result += get_char_from_tree(data_arr, tree)
 
     return result
+
 
 if __name__ == "__main__":
     codes = {}
