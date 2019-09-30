@@ -1,10 +1,9 @@
 # Complexity
-n = number of blocks in blockchain
+### n = number of blocks in blockchain
 
-Time: Traversal - O(n)
-Time: Insertion - O(1)
-
-Space O(n)
+* Time: Traversal - O(n)
+* Time: Insertion - O(1)
+* Space: O(n)
 
 # Explanation
 Blockchains are functionally very similar to Linked Lists, so LL seemed like a sensible choice when decided upon the functionality of this blockchain. Linked Lists are fantastic for constant time insert/delete use operations, however to search for a particular value within the chain you are looking at a linear time complexity O(n) as you will have to visit each node (worst case) in order to find what you're looking for.

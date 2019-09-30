@@ -1,10 +1,10 @@
 # Complexity
-N = number of nodes in tree
-U = number of users per node
-n = N * U
+### N = number of nodes in tree
+### U = number of users per node
+### n = N * U
 
-Time - O(n)
-Space - O(n)
+* Time: O(n)
+* Space: O(n)
 
 # Explanation
 Fairly straightforward. We are interested in whether a user is in a group where a group can contain a list of users or a list of other groups. This means that in order for us to determine whether a group contains a user, we have to consider all of its child groups.
