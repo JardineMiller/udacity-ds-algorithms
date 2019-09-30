@@ -67,22 +67,22 @@ def get_char_from_tree(data_arr, tree):
     if type(tree) is str:
         return tree
 
-    char = data_arr.pop(0)
+    bit = data_arr.pop(0)
     
-    if char == "0":
+    if bit == "0":
         result += get_char_from_tree(data_arr, tree.left)
     else:
         result += get_char_from_tree(data_arr, tree.right)
     
 
 def huffman_decoding(data, tree):
-    result = ""
+    decoded_string = ""
     data_arr = [char for char in data]
 
     while len(data_arr) > 0:
-        result += get_char_from_tree(data_arr, tree)
+        decoded_string += get_char_from_tree(data_arr, tree)
 
-    return result
+    return decoded_string
 
 
 if __name__ == "__main__":
