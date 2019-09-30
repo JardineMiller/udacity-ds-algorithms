@@ -1,6 +1,4 @@
 import sys
-import queue
-import heapq
 
 class TreeNode:
     def __init__(self, left = None, right = None):
@@ -33,15 +31,12 @@ def construct_tree(freq_dict):
     tuples_list = sorted(freq_dict.items(), key = lambda tup:tup[1]) 
 
     while len(tuples_list) > 1:
-        # Take first two tuples
-        char1, count1 = tuples_list[0]
-        char2, count2 = tuples_list[1]
+        # Take first two tuples and remove the from list
+        value1, count1 = tuples_list.pop(0)
+        value2, count2 = tuples_list.pop(0)
 
-        # Remove from the list
-        tuples_list = tuples_list[2:]
-
-        # Create a parent node with each tuple chars as children
-        parent_node = TreeNode(char1, char2)
+        # Create a parent node with each tuple values as children
+        parent_node = TreeNode(value1, value2)
 
         # Attach the node back into the list, the new count being the combined count of the children
         tuples_list.append((parent_node, count1 + count2))
@@ -67,16 +62,16 @@ def huffman_encoding(data):
 
     return (encoded_data, tree)
 
-def get_char_from_tree(bit_arr, tree):
+def decode_char(bit_arr, tree):
     if type(tree) is str:
         return tree
 
     bit = bit_arr.pop(0)
     
     if bit == "0":
-        return get_char_from_tree(bit_arr, tree.left)
+        return decode_char(bit_arr, tree.left)
     else:
-        return get_char_from_tree(bit_arr, tree.right)
+        return decode_char(bit_arr, tree.right)
     
 
 def huffman_decoding(bit_string, tree):
@@ -84,7 +79,7 @@ def huffman_decoding(bit_string, tree):
     bit_arr = [bit for bit in bit_string]
 
     while len(bit_arr) > 0:
-        decoded_string += get_char_from_tree(bit_arr, tree)
+        decoded_string += decode_char(bit_arr, tree)
 
     return decoded_string
 
