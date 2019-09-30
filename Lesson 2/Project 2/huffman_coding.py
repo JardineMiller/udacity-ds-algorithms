@@ -2,7 +2,7 @@ import sys
 import queue
 import heapq
 
-class Tree:
+class TreeNode:
     def __init__(self, left = None, right = None):
         self.left = left
         self.right = right
@@ -41,7 +41,7 @@ def construct_tree(freq_dict):
         tuples_list = tuples_list[2:]
 
         # Create a parent node with each tuple chars as children
-        parent_node = Tree(char1, char2)
+        parent_node = TreeNode(char1, char2)
 
         # Attach the node back into the list, the new count being the combined count of the children
         tuples_list.append((parent_node, count1 + count2))
@@ -54,11 +54,7 @@ def construct_tree(freq_dict):
 def huffman_encoding(data):
     frequencies = get_frequencies_dict(data)
     tree = construct_tree(frequencies)
-
     huffman_table = construct_huffman_table(tree)
-
-    print(huffman_table)
-    
     encoded_data = ""
 
     for char in data:
@@ -66,32 +62,49 @@ def huffman_encoding(data):
 
     return (encoded_data, tree)
 
-def huffman_decoding(data,tree):
-    pass
+def huffman_decoding(data, tree, i=0):
+    result = ""
+    node = None
+
+    while len(data) > 0:
+        char = data[i]
+        
+        if node is None:
+            node = tree
+
+        if char == "0":
+            node = node.left
+        else:
+            node = node.right
+
+        i += 1
+        
+        if type(node) is str:
+            data = data[i:]
+            i = 0
+            result += node
+            node = None
+
+    return result
 
 if __name__ == "__main__":
     codes = {}
 
     a_great_sentence = "The bird is the word"
-    a_great_sentence = "ABRACADABRA"
+    a_great_sentence = "Andy is a giant bawbag"
 
-    # print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-    # print ("The content of the data is: {}\n".format(a_great_sentence))
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    print ("The content of the data is: {}\n".format(a_great_sentence))
 
     encoded_data, tree = huffman_encoding(a_great_sentence)
 
-    print(encoded_data)
-    print("011111001011010001111100")
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    print ("The content of the encoded data is: {}\n".format(encoded_data))
 
-    print(encoded_data == "011111001011010001111100")
+    decoded_data = huffman_decoding(encoded_data, tree)
 
-    # print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-    # print ("The content of the encoded data is: {}\n".format(encoded_data))
-
-    # # decoded_data = huffman_decoding(encoded_data, tree)
-
-    # print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-    # print ("The content of the encoded data is: {}\n".format(decoded_data))
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    print ("The content of the encoded data is: {}\n".format(decoded_data))
 
 
 
