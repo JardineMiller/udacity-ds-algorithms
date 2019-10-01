@@ -18,13 +18,16 @@ def get_frequencies_dict(string):
 
     return frequencies
 
-def construct_huffman_table(node, left=True, binary_string=""):
-    if type(node) is str:
-        return {node: binary_string}
-
+def construct_huffman_table(node, bin_string=""):
     result = {}
-    result.update(construct_huffman_table(node.left, True, binary_string + "0"))
-    result.update(construct_huffman_table(node.right, False, binary_string + "1"))
+
+    if type(node) is str:
+        result[node] = bin_string
+        return result
+
+    result.update(construct_huffman_table(node.left, bin_string + "0"))
+    result.update(construct_huffman_table(node.right, bin_string + "1"))
+    
     return result
 
 def construct_tree(freq_dict):
@@ -55,6 +58,9 @@ def encode_string(string, huffman_table):
     return encoded_data
 
 def huffman_encoding(data):
+    if data is None or len(data) == 0:
+        raise ValueError("String must not be null or empty")
+
     frequencies = get_frequencies_dict(data)
     tree = construct_tree(frequencies)
     huffman_table = construct_huffman_table(tree)
@@ -85,6 +91,7 @@ def huffman_decoding(bit_string, tree):
 
 
 if __name__ == "__main__":
+    print("==== TEST 1 ====")
     a_great_sentence = "The bird is the word"
 
     print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
@@ -99,3 +106,40 @@ if __name__ == "__main__":
 
     print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
     print ("The content of the encoded data is: {}\n".format(decoded_data))
+
+
+    print("==== TEST 2 ====")
+    a_great_sentence = "This is another test string"
+
+    print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    print("The content of the data is: {}\n".format(a_great_sentence))
+
+    encoded_data, tree = huffman_encoding(a_great_sentence)
+
+    print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    print("The content of the encoded data is: {}\n".format(encoded_data))
+
+    decoded_data = huffman_decoding(encoded_data, tree)
+
+    print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    print("The content of the encoded data is: {}\n".format(decoded_data))
+
+    try:
+        print("==== TEST 3 ====")
+        a_great_sentence = ""
+
+        print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+        print("The content of the data is: {}\n".format(a_great_sentence))
+
+        encoded_data, tree = huffman_encoding(a_great_sentence)
+
+        print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+        print("The content of the encoded data is: {}\n".format(encoded_data))
+
+        decoded_data = huffman_decoding(encoded_data, tree)
+
+        print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+        print ("The content of the encoded data is: {}\n".format(decoded_data))
+    except ValueError:
+        print("Oops, looks like you provided an invalid input")
+
