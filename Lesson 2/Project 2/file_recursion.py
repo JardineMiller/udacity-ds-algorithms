@@ -17,6 +17,9 @@ def find_files(suffix, path):
 	   a list of paths
 	"""
 
+	if len(suffix) < 1 or len(path) < 1 or suffix is None or path is None:
+		raise ValueError("Invalid input: suffix and path must not be null or empty")
+
 	paths = []
 
 	items = os.listdir(path)
