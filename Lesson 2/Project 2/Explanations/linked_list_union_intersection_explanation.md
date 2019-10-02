@@ -8,8 +8,7 @@
 ** Space: O(m + p + o) where o = new linked list. Simplified to O(n)
 
 * Intersection:
-** Time:
-*** O(m + pm + p + pk) where k is the index of the item removed from list 1. Simplified to O(n^2)
+** Time: O(m + pm + p + pk) where k is the index of the item removed from list 1. Simplified to O(n^2)
 ** Space: O(m + p + o + l) where o = new linked list and l = list created from linked list. Simplified to O(n)
 
 # Explanation
