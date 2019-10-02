@@ -25,13 +25,19 @@ def construct_huffman_table(node, bin_string=""):
         result[node] = bin_string
         return result
 
-    result.update(construct_huffman_table(node.left, bin_string + "0"))
-    result.update(construct_huffman_table(node.right, bin_string + "1"))
+    if node.left:
+        result.update(construct_huffman_table(node.left, bin_string + "0"))
+    if node.right:
+        result.update(construct_huffman_table(node.right, bin_string + "1"))
     
     return result
 
 def construct_tree(freq_dict):
     tuples_list = sorted(freq_dict.items(), key = lambda tup:tup[1]) 
+
+    if len(tuples_list) == 1:
+        value1, count1 = tuples_list.pop(0)
+        return TreeNode(value1)
 
     while len(tuples_list) > 1:
         # Take first two tuples and remove the from list
@@ -124,8 +130,25 @@ if __name__ == "__main__":
     print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
     print("The content of the encoded data is: {}\n".format(decoded_data))
 
+
+    print("==== TEST 3 ====")
+    a_great_sentence = "aaaaa"
+
+    print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    print("The content of the data is: {}\n".format(a_great_sentence))
+
+    encoded_data, tree = huffman_encoding(a_great_sentence)
+
+    print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    print("The content of the encoded data is: {}\n".format(encoded_data))
+
+    decoded_data = huffman_decoding(encoded_data, tree)
+
+    print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    print("The content of the encoded data is: {}\n".format(decoded_data))
+
     try:
-        print("==== TEST 3 ====")
+        print("==== TEST 4 ====")
         a_great_sentence = ""
 
         print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
@@ -143,3 +166,5 @@ if __name__ == "__main__":
     except ValueError:
         print("Oops, looks like you provided an invalid input")
 
+
+    

@@ -1,7 +1,6 @@
 # Complexity
 ### m = number of nodes in linked list 1
 ### p = numbers of nodes in linked list 2
-### n = m * p 
 
 
 * Union:
@@ -10,14 +9,15 @@
 
 * Intersection:
 ** Time:
-*** O(m + pm + p + pk) where k is the index of the item removed from list 1. Simplified to O(n)
+*** O(m + pm + p + pk) where k is the index of the item removed from list 1. Simplified to O(n^2)
+** Space: O(m + p + o + l) where o = new linked list and l = list created from linked list. Simplified to O(n)
 
 # Explanation
 ## Union
-Fairly straightforward, the union of two lists is essentially the two lists combined. So you will always have to iterate over each list in its entirety and push each value to the newly created linked list. Therefore, the space/time complexity for this is O(n)
+Fairly straightforward, the union of two lists is essentially the two lists combined. This solution accepts duplicate values, so you will always have to iterate over each list in its entirety and push each value to the newly created linked list. Therefore, the space/time complexity for this is O(n)
 
 ## Intersection
-Still linear, but slightly more complex than the Union implemenation. I decided to create a to_list() method for the linked list and use that to store the values of one of the linked lists so that I could easily remove a value from the list after it had been found. The reason for this is intersections of lists is slightly different to that of an intersection of a set, where you don't need to account for duplicate values. Lists means that duplicates might be present, so the implementation has to consider each PAIR of values. Consider the below:
+The list lookup within a for loop iterating over the other collection means that the time complexity here is quadratic - O(n^2). I decided to create a to_list() method for the linked list and use that to store the values of one of the linked lists so that I could easily remove a value from the list after it had been found. The reason for this is intersections of lists is slightly different to that of an intersection of a set, where you don't need to account for duplicate values. Lists means that duplicates might be present, so the implementation has to consider each PAIR of values. Consider the below:
 
 list_1 = [1,2,3,3,3]
 list_2 = [3]
