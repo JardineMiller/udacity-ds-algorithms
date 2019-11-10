@@ -72,7 +72,7 @@ class Trie:
         return current_node
 
 
-# ===== UTILS ===== 
+# ===== UTILS ===== #
 def create_trie(words):
     trie = Trie()
 
