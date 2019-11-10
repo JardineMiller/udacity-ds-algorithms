@@ -55,11 +55,11 @@ class Trie:
     def find(self, prefix):
         ## Find the Trie node that represents this prefix
 
+        if type(prefix) is not str:
+            raise ValueError("Input must be a string")
+
         if prefix is None or not len(prefix):
             return None
-
-        if type(prefix) is not str:
-            raise Exception("Input must be a string")
 
         current_node = self.root
         
@@ -109,12 +109,24 @@ def run_trie_tests():
     test("prefix 'goo' has one child", len(word_trie.find("goo").children), 2)
     test("prefix 'good' has three children", len(word_trie.find("good").children), 3)
     test("prefix 'z' has one child", len(word_trie.find("z").children), 1)
-    test("empty input returns None", word_trie.find(""), None)
 
     # Suffix
     test("prefix 'z' returns 'ebra' as suffix", word_trie.find("z").suffixes(), ["ebra"])
     test("prefix 'good' returns 'bye, s, will' as suffixes", word_trie.find("good").suffixes(), ["bye", "s", "will"])
     test("prefix 'zebra' returns empty array", word_trie.find("zebra").suffixes(), [])
+
+    # Invalid input
+    test("empty input returns None", word_trie.find(""), None)  
+
+    try:
+        test("empty input returns None", word_trie.find(None), None)
+    except ValueError:
+        test("invalid input (None) type raises exception", True, True)
+
+    try:
+        word_trie.find(1)
+    except ValueError:
+        test("invalid input (int) type raises exception", True, True)
 
 run_trie_tests()
 
