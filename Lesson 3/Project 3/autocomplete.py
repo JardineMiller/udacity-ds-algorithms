@@ -12,7 +12,17 @@ class TrieNode:
     def suffixes(self, suffix = ''):
         ## Recursive function that collects the suffix for 
         ## all complete words below this point
-        pass
+        result = []
+
+        if self.is_word and len(suffix):
+            result += [suffix] # can't return the result here as it could be a word with children
+        
+        for key in self.children:
+            new_suffix = suffix + key
+            result += self.children[key].suffixes(new_suffix)
+
+        return result
+        
         
 ## The Trie itself containing the root node and insert/find functions
 class Trie:
@@ -44,6 +54,13 @@ class Trie:
 
     def find(self, prefix):
         ## Find the Trie node that represents this prefix
+
+        if type(prefix) is not str:
+            raise Exception("Input must be a string")
+
+        if not len(prefix):
+            return None
+
         current_node = self.root
         
         for char in prefix:
@@ -82,18 +99,22 @@ def run_trie_tests():
     word_trie = create_trie(word_list)
 
     # Exists
-    test("bear is in trie", word_trie.exists("bear"), True)
-    test("apple is in trie", word_trie.exists("apple"), True)
-    test("hello is not trie", word_trie.exists("hello"), False)
+    test("'bear' is in trie", word_trie.exists("bear"), True)
+    test("'apple' is in trie", word_trie.exists("apple"), True)
+    test("'hello' is not trie", word_trie.exists("hello"), False)
 
     # Prefix
+    test("prefix 're' returns None because it can't be found", word_trie.find("re"), None)
     test("prefix 'go' has one child", len(word_trie.find("go").children), 1)
     test("prefix 'goo' has one child", len(word_trie.find("goo").children), 2)
     test("prefix 'good' has three children", len(word_trie.find("good").children), 3)
     test("prefix 'z' has one child", len(word_trie.find("z").children), 1)
+    test("empty input returns None", word_trie.find(""), None)
 
-
-
+    # Suffix
+    test("prefix 'z' returns 'ebra' as suffix", word_trie.find("z").suffixes(), ["ebra"])
+    test("prefix 'good' returns 'bye, s, will' as suffixes", word_trie.find("good").suffixes(), ["bye", "s", "will"])
+    test("prefix 'zebra' returns empty array", word_trie.find("zebra").suffixes(), [])
 
 run_trie_tests()
 
