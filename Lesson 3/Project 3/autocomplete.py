@@ -55,11 +55,11 @@ class Trie:
     def find(self, prefix):
         ## Find the Trie node that represents this prefix
 
+        if prefix is None or not len(prefix):
+            return None
+
         if type(prefix) is not str:
             raise Exception("Input must be a string")
-
-        if not len(prefix):
-            return None
 
         current_node = self.root
         
