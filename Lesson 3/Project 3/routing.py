@@ -62,7 +62,7 @@ class Router:
             raise ValueError("Path must be of type string")
 
         if handler is None or type(handler) is not str:
-            raise ValueError("Path must be of type string")
+            raise ValueError("Handler must be of type string")
         
         paths = self.split_path(path)
         self.trie.insert(paths, handler)
