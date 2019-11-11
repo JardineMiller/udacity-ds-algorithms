@@ -58,6 +58,12 @@ class Router:
         # Add a handler for a path
         # You will need to split the path and pass the pass parts
         # as a list to the RouteTrie
+        if path is None or type(path) is not str:
+            raise ValueError("Path must be of type string")
+
+        if handler is None or type(handler) is not str:
+            raise ValueError("Path must be of type string")
+        
         paths = self.split_path(path)
         self.trie.insert(paths, handler)
 
@@ -67,26 +73,62 @@ class Router:
         # return the "not found" handler if you added one
         # bonus points if a path works with and without a trailing slash
         # e.g. /about and /about/ both return the /about handler
+        if path is None or type(path) is not str:
+            raise ValueError("Path must be of type string")
+
         paths = self.split_path(path)
         leaf = self.trie.find(paths)
 
         return leaf.handler if leaf is not None else self.not_found_handler 
 
     def split_path(self, path):
-        return path.split("/")
         # you need to split the path into parts for 
         # both the add_handler and loopup functions,
         # so it should be placed in a function here
+        return path.split("/")
 
 # Here are some test cases and expected outputs you can use to test your implementation
+def test(scenario, result, expected):
+	separator = "-------------------------"
+	scenario = "Scenario: " + scenario
+	status = "Status: PASS" if result == expected else "Status: FAIL"
+	result_str = "Result: " + str(result)
+	expected_str = "Expected: " + str(expected)
+
+	print(scenario)
+	print(result_str)
+	print(expected_str)
+	print(status)
+	print(separator)
 
 # create the router and add a route
 router = Router("root handler", "not found handler") # remove the 'not found handler' if you did not implement this
 router.add_handler("/home/about", "about handler")  # add a route
 
-# # some lookups with the expected output
-print(router.lookup("/")) # should print 'root handler'
-print(router.lookup("/home")) # should print 'not found handler' or None if you did not implement one
-print(router.lookup("/home/about")) # should print 'about handler'
-print(router.lookup("/home/about/")) # should print 'about handler' or None if you did not handle trailing slashes
-print(router.lookup("/home/about/me")) # should print 'not found handler' or None if you did not implement one
+def run_tests():
+    # Happy path
+    test("'/' lookup returns root handler", router.lookup("/"), "root handler")
+    test("'/home/about' lookup returns about handler", router.lookup("/home/about"), "about handler")
+    test("'/home/about/' lookup returns about handler - handles trailing slash", router.lookup("/home/about/"), "about handler")
+
+    # Not found
+    test("'/home' lookup returns 404", router.lookup("/home"), "not found handler")
+    test("'/home/about/me' returns 404", router.lookup("/home/about/me"), "not found handler")
+
+    # Edge case
+    try:
+        router.add_handler(None, None)
+    except ValueError:
+        test("add_handler: invalid input (incorrect type) raises exception", True, True)
+
+    try:
+        router.lookup(1)
+    except ValueError:
+        test("lookup: invalid input (incorrect type) raises exception", True, True)
+
+    try:
+        router.lookup(None)
+    except ValueError:
+        test("lookup: invalid input (None param) raises exception", True, True)
+
+run_tests()
