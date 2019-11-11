@@ -36,7 +36,7 @@ class Trie:
 
         for char in word:
             if char not in current_node.children:
-                current_node.children[char] = TrieNode()
+                current_node.insert(char)
             current_node = current_node.children[char]
         
         current_node.is_word = True
